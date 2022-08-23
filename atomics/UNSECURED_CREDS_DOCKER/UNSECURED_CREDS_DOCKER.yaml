@@ -1,0 +1,20 @@
+attack_technique: T1552.005
+display_name: Run kubectl to look for anything
+atomic_tests:
+- name: kubectl
+  description: download and run kubectl
+  dependencies:
+  - description: |
+      Checks for docker, or gets it
+    prereq_command: |
+      which docker
+    get_prereq_command: |
+      cd /tmp && curl -LO "https://download.docker.com/linux/static/stable/x86_64/docker-20.10.10.tgz" && tar xzvf docker-20.10.10.tgzn && cp docker/docker ${PATH}
+  supported_platforms:
+    - linux
+    - containers
+  executor:
+    command: |
+      docker info
+    name: bash
+    elevation_required: false
