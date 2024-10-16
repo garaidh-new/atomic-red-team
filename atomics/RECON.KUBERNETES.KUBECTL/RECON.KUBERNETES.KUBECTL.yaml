@@ -1,0 +1,20 @@
+attack_technique: T1552.005
+display_name: Run kubectl to look for anything
+atomic_tests:
+- name: kubectl
+  description: download and run kubectl
+  dependencies:
+  - description: |
+      Checks for wget
+    prereq_command: |
+      which kubectl
+    get_prereq_command: |
+      cd /tmp && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  supported_platforms:
+    - linux
+    - containers
+  executor:
+    command: |
+      /tmp/kubectl get ns
+    name: bash
+    elevation_required: false

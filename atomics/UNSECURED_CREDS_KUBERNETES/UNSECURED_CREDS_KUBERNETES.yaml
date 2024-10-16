@@ -1,0 +1,13 @@
+attack_technique: T1552.007
+display_name: Search for Kubernetes secrets
+atomic_tests:
+- name: kubectl
+  description:  Search for Kubernetes secrets
+  supported_platforms:
+    - linux
+    - containers
+  executor:
+    command: |
+      cat /var/run/secrets/kubernetes.io/*/token > /tmp/token
+    name: bash
+    elevation_required: false
